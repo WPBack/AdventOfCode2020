@@ -63,7 +63,7 @@ for passport in passports:
 print('Part 1: ', numHasAllFields)
 
 
-# PART 1: Count number of passports with valid data
+# PART 2: Count number of passports with valid data
 numValid = 0
 for passport in passports:
     if passport.isValid():
