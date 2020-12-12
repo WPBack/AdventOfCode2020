@@ -12,7 +12,7 @@ class Bag:
     def __init__(self, bagString):
         self.color = re.search('([^\s]+\s+[^\s]+)', bagString).group(0)
         childStrings = re.findall('(\d)\s([^\s]+\s[^\s]+)', bagString)
-        self.childBagNums = [i[0] for i in childStrings]
+        self.childBagNums = [int(i[0]) for i in childStrings]
         self.childBagColors = [i[1] for i in childStrings]
         self.children = []
 
@@ -30,6 +30,13 @@ class Bag:
             for child in self.children:
                 result.append(child)
                 result.extend(child.getAllChildren())
+        return result
+        
+    def getNumChildren(self):
+        result = 0
+        for i in range(len(self.children)):
+            result += self.childBagNums[i]
+            result += self.children[i].getNumChildren()*self.childBagNums[i]
         return result
 
 # Create list of bags
@@ -51,3 +58,15 @@ for bag in bags:
         numShinyGold += 1
 
 print('Part 1: ', numShinyGold)
+
+# PART 2: Find the number of children to the shiny gold bag
+# Find the shiny gold bag
+shinyGoldBag = None
+for bag in bags:
+    if bag.color == 'shiny gold':
+        shinyGoldBag = bag
+
+# Count the number of children
+numChildren = shinyGoldBag.getNumChildren()
+
+print('Part 2: ', numChildren)
