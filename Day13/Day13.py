@@ -1,6 +1,8 @@
 # Import modules
 import os
 import re
+import numpy as np
+from itertools import compress
 
 # Read input
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -23,11 +25,26 @@ print('Part 1: ', minWaitTime*minWaitBus)
 # PART 2: Extract indices for the bus lines
 busLinesWithX = input[1].split(',')
 busLineIndices = [busLinesWithX.index(str(bus)) for bus in busLines]
-maxBusLine = max(busLines)
 
-time = maxBusLine - busLineIndices[busLines.index(maxBusLine)]
-while not (all([(busLines[i] - time%busLines[i]) == busLineIndices[i] for i in range(1,len(busLines))]) and time%busLines[0] == 0):
-    time += maxBusLine
-    print(time)
+timeToMoveToFirstCorrectIndex = [0]*len(busLines)
+for i in range(1,len(busLines)):
+    time = 0
+    while not busLines[i] - time%busLines[i] == busLineIndices[i] and False:
+        time += busLines[0]
+    
+    timeToMoveToFirstCorrectIndex[i] = time
 
-print('Part 2: ', time)
+timeToDoFullRotation = np.lcm(busLines[0], busLines)
+
+inSync = [False]*len(busLines)
+inSync[0] = True
+time = 0
+stepLenght = timeToDoFullRotation[0]
+
+while not all(inSync):
+    for i in range(len(busLines)):
+        if not inSync[i]:
+            inSync[i] = busLines[i] - time%busLines[i] == busLineIndices[i]
+            stepLength = np.lcm.reduce(list(compress(timeToDoFullRotation, inSync)))
+    print(time, inSync, stepLength)
+    time += stepLength
