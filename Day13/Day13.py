@@ -26,25 +26,17 @@ print('Part 1: ', minWaitTime*minWaitBus)
 busLinesWithX = input[1].split(',')
 busLineIndices = [busLinesWithX.index(str(bus)) for bus in busLines]
 
-timeToMoveToFirstCorrectIndex = [0]*len(busLines)
-for i in range(1,len(busLines)):
-    time = 0
-    while not busLines[i] - time%busLines[i] == busLineIndices[i] and False:
-        time += busLines[0]
-    
-    timeToMoveToFirstCorrectIndex[i] = time
-
-timeToDoFullRotation = np.lcm(busLines[0], busLines)
-
 inSync = [False]*len(busLines)
 inSync[0] = True
 time = 0
-stepLenght = timeToDoFullRotation[0]
+stepLength = busLines[0]
 
 while not all(inSync):
+    time += stepLength
     for i in range(len(busLines)):
         if not inSync[i]:
-            inSync[i] = busLines[i] - time%busLines[i] == busLineIndices[i]
-            stepLength = np.lcm.reduce(list(compress(timeToDoFullRotation, inSync)))
-    print(time, inSync, stepLength)
-    time += stepLength
+            inSync[i] = busLines[i] - time%busLines[i] == busLineIndices[i]%busLines[i]
+            if inSync[i]:
+                stepLength = np.lcm.reduce(list(compress(busLines, inSync)))
+
+print('Part 2: ', time)
