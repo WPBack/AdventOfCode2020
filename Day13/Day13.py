@@ -23,9 +23,11 @@ print('Part 1: ', minWaitTime*minWaitBus)
 # PART 2: Extract indices for the bus lines
 busLinesWithX = input[1].split(',')
 busLineIndices = [busLinesWithX.index(str(bus)) for bus in busLines]
+maxBusLine = max(busLines)
 
-time = 0
-while not all([(busLines[i] - time%busLines[i]) == busLineIndices[i] for i in range(1,len(busLines))]):
-    time += busLines[0]
+time = maxBusLine - busLineIndices[busLines.index(maxBusLine)]
+while not (all([(busLines[i] - time%busLines[i]) == busLineIndices[i] for i in range(1,len(busLines))]) and time%busLines[0] == 0):
+    time += maxBusLine
+    print(time)
 
 print('Part 2: ', time)
