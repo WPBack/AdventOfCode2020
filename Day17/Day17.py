@@ -100,8 +100,6 @@ def updateSpacePart2(space):
                         for checkZ in range(max([z-1,0]), min([z+1,len(newSpace[0])-1])+1):
                             for checkY in range(max([y-1,0]), min([y+1,len(newSpace[0][0])-1])+1):
                                 for checkX in range(max([x-1,0]), min([x+1,len(newSpace[0][0][0])-1])+1):
-                                    #print('check:',checkX,checkY,checkZ,checkW)
-                                    #print('size: ',len(newSpace[0][0][0]),len(newSpace[0][0]),len(newSpace[0]),len(newSpace[0]))
                                     if enlargedSpace[checkW][checkZ][checkY][checkX] == '#':
                                         numActiveNearby += 1
                     
