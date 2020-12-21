@@ -22,3 +22,5 @@ def evalExp(exp):
             operands.append(part.group(0)[1:-1])
         else:
             operands.append(part.group(0))
+
+print('TEST')
